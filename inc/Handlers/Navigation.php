@@ -4,7 +4,7 @@
  *
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://github.com/WP-Blueprint/wp-blueprint-core
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/navigations/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
