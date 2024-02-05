@@ -1,7 +1,12 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Navigation
+ * Deprecated: WP Blueprint Theme Core Handler: Navigation.
  *
+ * This class is deprecated and replaced by Navigations class. It was used for registering
+ * navigations within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Theme\Core\Handlers\Navigations instead.
+ * @see \WPBlueprint\Theme\Core\Handlers\Navigations
  * @since   1.0
  * @package wp-blueprint/theme-core
  * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/navigations/
@@ -10,81 +15,27 @@
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\Navigations;
+
 /**
- * This class handles the registration of navigations.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Theme\Core\Handlers\Navigations instead.
  */
 class Navigation {
 
 	/**
-	 * Stores the custom navigation menus to be registered.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Theme\Core\Handlers\Navigations::set instead.
 	 *
-	 * @var array
+	 * Set the navigations to be registered.
+	 *
+	 * @param array $navigations Array of navigations to be registered.
 	 */
-	protected $navigations;
+	public static function set_navigations( array $navigations = [] ): void {
+		wp_trigger_error(
+			'Method set_navigations from class WPBlueprint\Theme\Core\Handlers\Navigation is deprecated. Use WPBlueprint\Theme\Core\Handlers\Navigations::setNavigations instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Registers the Navigation actions.
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->add_navigation_action();
+		// Backwards compatibility.
+		Navigations::set( $navigations );
 	}
-
-	/**
-	 * Sets the custom navigations.
-	 *
-	 * @param array $navigations Array of custom navigations.
-	 * @return void
-	 */
-	public function set_navigations( array $navigations = array() ): void {
-		$this->navigations = $navigations;
-	}
-
-	/**
-	 * Adds actions for Navigation.
-	 *
-	 * @return void
-	 */
-	protected function add_navigation_action(): void {
-		if ( isset( $this->navigations ) && ! empty( $this->navigations ) ) {
-			add_action( 'init', array( $this, 'register_custom_navigations' ) );
-		}
-	}
-
-	/**
-	 * Registers custom navigations.
-	 *
-	 * @return void
-	 */
-	public function register_custom_navigations(): void {
-		register_nav_menus( $this->navigations );
-	}
-
-	/**
-	 * Fetches the navigation options for a given location.
-	 *
-	 * @param string $location The navigation menu location.
-	 * @return array The navigation menu options for the given location.
-	 */
-	public function get_navigation_options( string $location ): array {
-		$options = array();
-		foreach ( $this->navigations as $nav ) {
-			if ( $nav['location'] === $location ) {
-				$options = $nav['options'];
-				break;
-			}
-		}
-		return $options;
-	}
-
-	/**
-	*  Now, when you want to render a navigation menu, you can use the get_navigation_options() method to get the options for a specific navigation location:
-	*
-	* $nav_options = $navigation_handler->get_navigation_options('primary');
-	* wp_nav_menu(array_merge(array('theme_location' => 'primary'), $nav_options));
-	*
-	* Replace $navigation_handler with your instance of the NavigationHandler class. This example assumes you have already registered your custom Nav Walker class with WordPress. If you haven't done so, you should require/include the Nav Walker class file and register it before using it.
-	*/
-
 }

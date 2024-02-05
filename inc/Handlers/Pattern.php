@@ -1,102 +1,60 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Pattern
+ * Deprecated: WP Blueprint Theme Core Handler: Element.
  *
+ * This class is deprecated and replaced by BlockPatterns and BlockPatternCategories class. It was used for registering
+ * elements within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Core\Registration\BlockPatterns and \WPBlueprint\Core\Registration\BlockPatternCategories instead.
+ * @see \WPBlueprint\Core\Registration\BlockPatterns
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/patterns/
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/elements/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\BlockPatterns;
+use WPBlueprint\Core\Registration\BlockPatternCategories;
+
+
 /**
- * This class handles the registration of patterns.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\BlockPatterns instead.
  */
 class Pattern {
-	/**
-	 * The patterns to be registered.
-	 *
-	 * @var array
-	 */
-	protected $patterns;
 
 	/**
-	 * The categories to be registered.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\BlockPatterns::set() instead.
 	 *
-	 * @var array
+	 * Set the block patterns to be registered.
+	 *
+	 * @param array $elements Array of block patterns to be registered.
 	 */
-	protected $categories;
+	public static function set_patterns( array $elements = [] ): void {
+		wp_trigger_error(
+			'Method set_patterns from class WPBlueprint\Theme\Core\Handlers\Pattern is deprecated. Use WPBlueprint\Theme\Core\Handlers\BlockPatterns::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Registers the Patterns actions.
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->add_pattern_action();
+		// Backwards compatibility.
+		BlockPatterns::set( $elements );
 	}
 
 	/**
-	 * Function to set patterns.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\BlockPatternCategories::set() instead.
 	 *
-	 * @param array $patterns Array of patterns.
+	 * Set the block pattern categories to be registered.
 	 *
-	 * @return void
+	 * @param array $elements Array of block pattern categories to be registered.
 	 */
-	public function set_patterns( array $patterns = array() ): void {
-		$this->patterns = $patterns;
-	}
+	public static function set_categories( array $elements = [] ): void {
+		wp_trigger_error(
+			'Method set_categories from class WPBlueprint\Theme\Core\Handlers\Gutenberg is deprecated. Use WPBlueprint\Theme\Core\Handlers\BlockPatternCategories::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Function to set categories.
-	 *
-	 * @param array $categories Array of categories.
-	 *
-	 * @return void
-	 */
-	public function set_categories( array $categories = array() ): void {
-		$this->categories = $categories;
-	}
-
-	/**
-	 * Function to add pattern action.
-	 *
-	 * @return void
-	 */
-	protected function add_pattern_action(): void {
-		if ( isset( $this->patterns ) && ! empty( $this->patterns ) ) {
-			add_action( 'init', array( $this, 'register_custom_patterns' ) );
-		}
-		if ( isset( $this->categories ) && ! empty( $this->categories ) ) {
-			add_action( 'init', array( $this, 'register_custom_categories' ) );
-		}
-	}
-
-	/**
-	 * Register custom patterns.
-	 *
-	 * @return void
-	 */
-	public function register_custom_patterns(): void {
-		foreach ( $this->patterns as $pattern ) {
-			// Register the pattern with the provided properties.
-			register_block_pattern(
-				...$pattern,
-			);
-		}
-	}
-
-	/**
-	 * Register custom categories.
-	 *
-	 * @return void
-	 */
-	public function register_custom_categories(): void {
-		foreach ( $this->categories as $category ) {
-			register_block_pattern_category(
-				...$category,
-			);
-		}
+		// Backwards compatibility.
+		BlockPatternCategories::set( $elements );
 	}
 }

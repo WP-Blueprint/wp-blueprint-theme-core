@@ -1,70 +1,42 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Post Type
+ * Deprecated: WP Blueprint Theme Core Handler: PostType.
  *
+ * This class is deprecated and replaced by PostTypes class. It was used for registering
+ * elements within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Core\Registration\PostTypes instead.
+ * @see \WPBlueprint\Core\Registration\PostTypes
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/post-types/
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/elements/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\PostTypes;
+
 /**
- * This class handles the registration of post types.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\PostTypes instead.
  */
 class PostType {
 
 	/**
-	 * Stores the custom posttypes to be registered.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\PostTypes:set() instead.
 	 *
-	 * @var array
+	 * Set the post types to be registered.
+	 *
+	 * @param array $post_types Array of post types to be registered.
 	 */
-	protected $posttypes;
+	public static function set_posttypes( array $post_types = [] ): void {
 
-	/**
-	 * Registers the Posttype actions.
-	 *
-	 * @return void
-	 */
-	public function register() {
-		$this->add_posttype_action();
-	}
+		wp_trigger_error(
+			'Method set_posttypes from class WPBlueprint\Theme\Core\Handlers\PostType is deprecated. Use WPBlueprint\Core\Registration\PostTypes::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Function to set custom posttypes.
-	 *
-	 * @param array $posttypes Array of custom posttypes.
-	 *
-	 * @return void
-	 */
-	public function set_posttypes( array $posttypes = array() ): void {
-		$this->posttypes = $posttypes;
-	}
-
-	/**
-	 * Function to add posttypes action.
-	 *
-	 * @return void
-	 */
-	protected function add_posttype_action() {
-		if ( isset( $this->posttypes ) && ! empty( $this->posttypes ) ) {
-			// Register custom widget areas.
-			add_action( 'init', array( $this, 'register_custom_posttypes' ) );
-		}
-	}
-
-	/**
-	 * Register custom posttypes.
-	 *
-	 * @return void
-	 */
-	public function register_custom_posttypes() {
-
-		// Register the new posttype.
-		foreach ( $this->posttypes as $posttype ) {
-			// Register the Posttype.
-			register_post_type( ...$posttype );
-		}
+		// Backwards compatibility.
+		PostTypes::set( $post_types );
 	}
 }

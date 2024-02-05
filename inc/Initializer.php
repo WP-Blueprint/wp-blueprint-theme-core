@@ -28,17 +28,6 @@ final class Initializer {
 			Base\Settings::class,
 			Base\Foundation::class,
 			Base\Security::class,
-
-			Handlers\Enqueue::class,
-			Handlers\Gutenberg::class,
-			Handlers\Navigation::class,
-			Handlers\ThemeStyle::class,
-			Handlers\PostType::class,
-			Handlers\Taxonomy::class,
-			Handlers\WidgetArea::class,
-			Handlers\Pattern::class,
-			Handlers\Shortcode::class,
-			Handlers\PostMeta::class,
 		);
 	}
 

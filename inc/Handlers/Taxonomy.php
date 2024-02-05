@@ -1,66 +1,41 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Taxonomy
+ * Deprecated: WP Blueprint Theme Core Handler: Taxonomy.
  *
+ * This class is deprecated and replaced by Taxonomies class. It was used for registering
+ * taxonomies within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Core\Registration\Taxonomies instead.
+ * @see \WPBlueprint\Core\Registration\Taxonomies
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/taxonomies/
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/elements/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\Taxonomies;
+
 /**
- * This class handles the registration of taxonomies.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\Taxonomies instead.
  */
 class Taxonomy {
 
 	/**
-	 * Stores the custom taxonomies to be registered.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\Taxonomies::set() instead.
 	 *
-	 * @var array
+	 * Set the taxonomies to be registered.
+	 *
+	 * @param array $taxonomies Array of taxonomies to be registered.
 	 */
-	protected $taxonomies;
+	public static function set_taxonomies( array $taxonomies = [] ): void {
+		wp_trigger_error(
+			'Method set_taxonomies from class WPBlueprint\Theme\Core\Handlers\Taxonomy is deprecated. Use WPBlueprint\Core\Registration\Taxonomies::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Registers the Taxonomy actions.
-	 *
-	 * @return void
-	 */
-	public function register() {
-		$this->add_taxonomy_action();
-	}
-
-	/**
-	 * Function to set custom taxonomies.
-	 *
-	 * @param array $taxonomies Array of custom taxonomies.
-	 *
-	 * @return void
-	 */
-	public function set_taxonomies( array $taxonomies = array() ): void {
-		$this->taxonomies = $taxonomies;
-	}
-
-	/**
-	 * Function to add Taxonomy action.
-	 *
-	 * @return void
-	 */
-	protected function add_taxonomy_action() {
-		if ( isset( $this->taxonomies ) && ! empty( $this->taxonomies ) ) {
-			add_action( 'init', array( $this, 'register_custom_taxonomies' ) );
-		}
-	}
-
-	/**
-	 * Register custom taxonomies.
-	 *
-	 * @return void
-	 */
-	public function register_custom_taxonomies() {
-		foreach ( $this->taxonomies as $taxonomy ) {
-			register_taxonomy( ...$taxonomy );
-		}
+		// Backwards compatibility.
+		Taxonomies::set( $taxonomies );
 	}
 }

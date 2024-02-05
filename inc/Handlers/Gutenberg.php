@@ -1,66 +1,41 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Gutenberg
+ * Deprecated: WP Blueprint Theme Core Handler: Gutenberg.
  *
+ * This class is deprecated and replaced by BlockTypes class. It was used for registering
+ * blocktypes within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Core\Registration\BlockTypes instead.
+ * @see \WPBlueprint\Core\Registration\BlockTypes
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/gutenberg/
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/blocktypes/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\BlockTypes;
+
 /**
- * This class handles the registration of gutenberg block editor element.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\BlockTypes instead.
  */
 class Gutenberg {
-	/**
-	 * Stores the custom Gutenberg blocks to be registered.
-	 *
-	 * @var array
-	 */
-	protected $blocks;
 
 	/**
-	 * Registers the Gutenberg actions.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\BlockTypes::set() instead.
 	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->add_gutenberg_actions();
-	}
-
-	/**
-	 * Sets the custom blocks.
+	 * Set the block types to be registered.
 	 *
-	 * @param array $blocks Array of custom blocks.
-	 * @return void
+	 * @param array $blocktypes Array of block types to be registered.
 	 */
-	public function set_blocks( array $blocks = array() ): void {
-		$this->blocks = $blocks;
-	}
+	public static function set_blocks( array $blocktypes = [] ): void {
+		wp_trigger_error(
+			'Method set_blocks from class WPBlueprint\Theme\Core\Handlers\Gutenberg is deprecated. Use WPBlueprint\Core\Registration\BlockTypes::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Adds actions for Gutenberg.
-	 *
-	 * @return void
-	 */
-	protected function add_gutenberg_actions(): void {
-
-		if ( isset( $this->blocks ) && ! empty( $this->blocks ) ) {
-			// Register custom blocks.
-			add_action( 'init', array( $this, 'register_custom_blocks' ) );
-		}
-	}
-
-	/**
-	 * Registers custom blocks.
-	 *
-	 * @return void
-	 */
-	public function register_custom_blocks(): void {
-		foreach ( $this->blocks as $block ) {
-			register_block_type( ...$block );
-		}
+		// Backwards compatibility.
+		BlockTypes::set( $blocktypes );
 	}
 }

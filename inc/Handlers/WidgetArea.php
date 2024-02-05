@@ -1,66 +1,41 @@
 <?php
 /**
- * WPBlueprint Theme Core Handler: Widget Area
+ * Deprecated: WP Blueprint Theme Core Handler: WidgetArea.
  *
+ * This class is deprecated and replaced by Sidebars. It was used for registering
+ * elements within the theme.
+ *
+ * @deprecated 2.0.0 Use \WPBlueprint\Core\Registration\Sidebars instead.
+ * @see \WPBlueprint\Core\Registration\Sidebars
  * @since   1.0
  * @package wp-blueprint/theme-core
- * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/widget-areas/
+ * @link    https://wp-blueprint.dev/documentation/themes/core/handlers/elements/
  * @license https://www.gnu.org/licenses/gpl-3.0 GPL-3.0
  */
 
 namespace WPBlueprint\Theme\Core\Handlers;
 
+use WPBlueprint\Core\Registration\Sidebars;
+
 /**
- * This class handles the registration of widget areas.
+ * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\Sidebars instead.
  */
 class WidgetArea {
 
 	/**
-	 * Stores the custom widget areas to be registered.
+	 * @deprecated since version 2.0.0; use \WPBlueprint\Core\Registration\Sidebars::set() instead.
 	 *
-	 * @var array
+	 * Set the widget areas to be registered.
+	 *
+	 * @param array $sidebars Array of widget areas to be registered.
 	 */
-	protected $widget_areas;
+	public static function set_widget_areas( array $sidebars = [] ): void {
+		wp_trigger_error(
+			'Method set_widget_areas from class WPBlueprint\Theme\Core\Handlers\WidgetArea is deprecated. Use WPBlueprint\Core\Registration\Sidebars::set instead.',
+			E_USER_DEPRECATED
+		);
 
-	/**
-	 * Registers the widget area actions.
-	 *
-	 * @return void
-	 */
-	public function register() {
-		$this->add_widget_area_action();
-	}
-
-	/**
-	 * Sets the custom widget areas.
-	 *
-	 * @param array $widget_areas Array of custom widget areas.
-	 * @return void
-	 */
-	public function set_widget_areas( array $widget_areas = array() ): void {
-		$this->widget_areas = $widget_areas;
-	}
-
-	/**
-	 * Adds actions for widget areas.
-	 *
-	 * @return void
-	 */
-	protected function add_widget_area_action() {
-		if ( isset( $this->widget_areas ) && ! empty( $this->widget_areas ) ) {
-			// Register custom widget areas.
-			add_action( 'widgets_init', array( $this, 'register_custom_widget_areas' ) );
-		}
-	}
-
-	/**
-	 * Registers custom widget areas.
-	 *
-	 * @return void
-	 */
-	public function register_custom_widget_areas() {
-		foreach ( $this->widget_areas as $widget_area ) {
-			register_sidebar( $widget_area );
-		}
+		// Backwards compatibility.
+		Sidebars::set( $sidebars );
 	}
 }
