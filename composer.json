@@ -1,6 +1,6 @@
 {
   "name": "wp-blueprint/theme-core",
-  "description": "WP Blueprint Theme Core serving as a core foundation and offering reusable functionalities for WordPress Themes.",
+  "description": "WPBlueprint\\Theme-Core: is serving as a core foundation and offering reusable functionalities for WordPress Themes. ",
   "type": "library",
   "license": "GPL-3.0-or-later",
   "authors": [
@@ -11,12 +11,12 @@
   ],
   "minimum-stability": "alpha",
   "require": {
-    "php": ">=5.6",
-    "wp-blueprint/core": "dev-main"
+    "php": ">=8.3",
+    "wp-blueprint/core": "^1.0.0"
   },
   "autoload": {
     "psr-4": {
-      "WPBlueprint\\Theme\\Core\\": "inc/"
+      "WPBlueprint\\Theme\\Core\\": "src/"
     }
   },
   "require-dev": {
