@@ -132,7 +132,7 @@ class Foundation {
 	 */
 	public static function fix_svg() {
 		echo '<style type="text/css">
-				.attachment-266x266, .thumbnail img {
+				.attachment-266x266[src$=".svg"], .thumbnail img[src$=".svg"] {
 					width: 100% !important;
 					height: auto !important;
 				}
