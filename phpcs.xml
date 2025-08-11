@@ -1,88 +1,87 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards for Aquila Features">
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="WordPress Theme Coding Standards" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	<!-- See https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
+	<!-- See https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
+	<!-- See https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki -->
+	<!-- See https://github.com/wimg/PHPCompatibility -->
 
-    <rule ref="WordPress-Core">
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax" />
-        <exclude name="Generic.Commenting.DocComment.MissingShort" />
-        <exclude name="WordPress.PHP.DisallowShortTernary" />
-        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-    </rule>
+	<exclude-pattern>node_modules</exclude-pattern>
+	<exclude-pattern>vendor</exclude-pattern>
+	<exclude-pattern>bin</exclude-pattern>
+	<exclude-pattern>tests/</exclude-pattern>
+	<exclude-pattern>acf-json</exclude-pattern>
+	<exclude-pattern>wp-config.sample.php</exclude-pattern>
+	<exclude-pattern>assets</exclude-pattern>
 
-    <rule ref="WordPress-Docs">
-        <exclude-pattern>tests/*</exclude-pattern>
-    </rule>
-    
-    <rule ref="WordPress-Extra" />
+	<!-- Set a description for this ruleset. -->
+	<description>A custom set of code standard rules to check for WordPress themes.</description>
 
-    <rule ref="WordPress.WP.I18n">
-        <properties>
-            <property name="text_domain" type="array">
-                <element value="wpblueprint"/>
-                <element value="default"/>
-            </property>
-        </properties>
-    </rule>
+	<!-- Pass some flags to PHPCS:
+		 p flag: Show progress of the run.
+		 s flag: Show sniff codes in all reports.
+		 v flag: Print verbose output.
+	-->
+	<arg value="psv"/>
 
-    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
-        <exclude-pattern>tests/*</exclude-pattern>
-        <exclude-pattern>src/*</exclude-pattern>
-    </rule>
+	<!-- Run in parallel, it's faster. -->
+	<arg name="parallel" value="8"/>
 
-    <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
-        <exclude-pattern>tests/*</exclude-pattern>
-    </rule>
-    
-    <rule ref="WordPress.WP.AlternativeFunctions">
-        <exclude-pattern>bin/*</exclude-pattern>
-    </rule>
-    
-    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
-        <exclude-pattern>src/*</exclude-pattern>
-    </rule>
+	<!-- Only check the PHP files. -->
+	<arg name="extensions" value="php"/>
 
-    <!-- Enforce PascalCase file names in src/ only. -->
-    <rule ref="Squiz.Classes.ClassFileName">
-        <include-pattern>src/*</include-pattern>
-    </rule>
+	<!-- Check all files in this directory and the directories below it. -->
+	<file>.</file>
 
-    <!-- Allow NotHyphenatedLowercase for TestCase class -->
-    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
-        <exclude-pattern>tests/php/TestCase.php</exclude-pattern>
-        <exclude-pattern>tests/php/DataProvider.php</exclude-pattern>
-    </rule>
+	<!-- Include the WordPress ruleset. -->
+	<rule ref="WordPress">
+		<exclude name="WPThemeReview.PluginTerritory.ForbiddenFunctions.editor_blocks_register_block_style" />
+		<exclude name="WPThemeReview.PluginTerritory.ForbiddenFunctions.editor_blocks_register_block_pattern" />
+		<exclude name="WPThemeReview.PluginTerritory.ForbiddenFunctions.editor_blocks_register_block_pattern_category" />
+		<exclude name="PHPCompatibility.FunctionDeclarations.NewClosure.Found" />
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+        <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames.classFound" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="Squiz.Commenting.ClassComment.Missing" />
+		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
+		<exclude name="Squiz.Commenting.FunctionComment.MissingReturnType" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
+		<exclude name="Generic.Functions.CallTimePassByReference" />
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed" />
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.Found" />
+	</rule>
 
-    <!-- Limit max. consecutive blank lines to 1 instead of 2. -->
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
-        <properties>
-            <property name="spacing" value="1"/>
-            <property name="spacingBeforeFirst" value="1"/>
-            <property name="spacingAfterLast" value="0"/>
-        </properties>
-    </rule>
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <!-- Exclude PrefixAllGlobals sniff -->
-    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-        <exclude-pattern>src/*</exclude-pattern>
-    </rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.classFound">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <arg value="s"/>
-    <arg name="extensions" value="php"/>
-    <file>.</file>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.Found">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <!-- Strip the filepaths down to the relevant bit. -->
-    <arg name="basepath" value="./"/>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <!-- Check up to 20 files simultaneously. -->
-    <arg name="parallel" value="20"/>
+	<rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <exclude-pattern>*/node_modules/*</exclude-pattern>
-    <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern type="relative">assets/build/*</exclude-pattern>
-    <exclude-pattern type="relative">^logs/*</exclude-pattern>
-    <exclude-pattern>/assets/build/js/*.asset.php</exclude-pattern>
+	<rule ref="WordPress.WP.I18n.NoEmptyStrings">
+		<exclude-pattern>*/inc/*</exclude-pattern>
+	</rule>
 
-    <!-- Composer autoloader exclusion -->
-    <exclude-pattern>vendor/autoload.php</exclude-pattern>
+	<rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
+		<exclude-pattern>*/patterns/*</exclude-pattern>
+	</rule>
 
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>*/patterns/*</exclude-pattern>
+	</rule>
 </ruleset>

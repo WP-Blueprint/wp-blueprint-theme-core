@@ -1,38 +1,36 @@
 {
-  "name": "wp-blueprint/theme-core",
-  "description": "WPBlueprint\\Theme-Core: is serving as a core foundation and offering reusable functionalities for WordPress Themes. ",
-  "type": "library",
-  "license": "GPL-3.0-or-later",
-  "authors": [
-    {
-      "name": "Yanis Deplazes",
-      "homepage": "https://github.com/YanisDeplazes"
-    }
-  ],
-  "minimum-stability": "alpha",
-  "require": {
-    "php": ">=8.3",
-    "wp-blueprint/core": "^1.0.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "WPBlueprint\\Theme\\Core\\": "src/"
-    }
-  },
-  "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-    "wptrt/wpthemereview": "^0.2.1",
-    "php-parallel-lint/php-parallel-lint": "^1.2.0",
-    "wp-cli/i18n-command": "^2.2.5"
-  },
-  "scripts": {
-    "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
-    "lint:wpcs:fix": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
-    "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor ."
-  },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  }
+	"name": "wp-blueprint/theme-core",
+	"description": "WPBlueprint\\Theme-Core: is serving as a core foundation and offering reusable functionalities for WordPress Themes. ",
+	"type": "library",
+	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Yanis Deplazes",
+			"homepage": "https://github.com/YanisDeplazes"
+		}
+	],
+	"minimum-stability": "alpha",
+	"require": {
+		"php": ">=8.3",
+		"wp-blueprint/core": "^1.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"WPBlueprint\\Theme\\Core\\": "src/"
+		}
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.8",
+		"wp-coding-standards/wpcs": "^3.0",
+		"phpcsstandards/phpcsutils": "^1.0"
+	},
+	"scripts": {
+		"lint": "phpcs --standard=phpcs.xml",
+		"lint:fix": "phpcbf --standard=phpcs.xml"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
 }

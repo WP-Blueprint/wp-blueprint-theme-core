@@ -39,7 +39,6 @@ class Foundation {
 			add_action( 'admin_head', array( $this, 'fix_svg' ) );
 		}
 
-		add_action( 'wp_head', array( $this, 'custom_wp_head' ), 0 );
 		add_filter( 'the_excerpt_rss', array( $this, 'featured_to_rss' ) );
 		$this->are_image_libraries_installed();
 	}
@@ -63,26 +62,6 @@ class Foundation {
 					background-position: center center;
 				}
 			</style>';
-		}
-	}
-
-	/**
-	 * Adds custom meta data to the wp_head action.
-	 *
-	 * @return void
-	 */
-	public static function custom_wp_head() {
-		$charset = get_bloginfo( 'charset' );
-
-		$custom_wp_head = get_option( 'foundation_custom_wp_head', false );
-
-		echo '<meta charset="' . esc_attr( $charset ) . '" />';
-		echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
-		echo '<link type="text/plain" rel="author" href="' . esc_url( get_template_directory_uri() ) . '/humans.txt" />';
-		echo '<meta http-equiv="x-dns-prefetch-control" content="on">';
-
-		if ( ! empty( $custom_wp_head ) ) {
-			echo esc_html( $custom_wp_head );
 		}
 	}
 

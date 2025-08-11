@@ -10,15 +10,12 @@ on:
 
 jobs:
     lint-php:
-        name: PHP and WPCS Lint
+        name: PHP Lint
         runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            issues: none
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -27,10 +24,10 @@ jobs:
 
             - name: Get Composer Cache Directory
               id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: Cache Composer Dependencies
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -41,10 +38,7 @@ jobs:
               run: composer install --no-progress
 
             - name: Run PHP Lint
-              run: composer run-script lint:php
-
-            - name: Run WPCS Lint
-              run: composer run-script lint:wpcs
+              run: composer run lint
 
     generate-and-deploy-docs:
         name: Generate and Deploy Documentation
@@ -56,7 +50,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2

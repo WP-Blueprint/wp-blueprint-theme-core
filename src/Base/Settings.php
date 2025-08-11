@@ -51,7 +51,6 @@ class Settings {
 		// Register settings for Foundation.
 		register_setting( 'wpblueprint_foundation_settings', 'foundation_login_logo_url' );
 		register_setting( 'wpblueprint_foundation_settings', 'foundation_enable_admin_bar' );
-		register_setting( 'wpblueprint_foundation_settings', 'foundation_custom_wp_head' );
 		register_setting( 'wpblueprint_foundation_settings', 'foundation_rss_thumbnail_size' );
 		register_setting( 'wpblueprint_foundation_settings', 'foundation_remove_gallery_css' );
 		register_setting( 'wpblueprint_foundation_settings', 'foundation_allow_svg_upload' );
@@ -60,7 +59,6 @@ class Settings {
 
 		add_settings_field( 'foundation_login_logo_url', 'Login Logo URL', array( $this, 'render_login_logo_url_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
 		add_settings_field( 'foundation_enable_admin_bar', 'Enable Admin Bar', array( $this, 'render_enable_admin_bar_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
-		add_settings_field( 'foundation_custom_wp_head', 'Custom WP Head', array( $this, 'render_custom_wp_head_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
 		add_settings_field( 'foundation_rss_thumbnail_size', 'Post Thumbnail Size for RSS Feed', array( $this, 'render_rss_thumbnail_size_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
 		add_settings_field( 'foundation_remove_gallery_css', 'Remove Gallery CSS', array( $this, 'render_remove_gallery_css_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
 		add_settings_field( 'foundation_allow_svg_upload', 'Allow SVG Upload', array( $this, 'render_allow_svg_upload_field' ), 'wpblueprint_foundation_settings', 'foundation_general' );
@@ -178,17 +176,6 @@ class Settings {
 	public function render_enable_admin_bar_field() {
 		$option = get_option( 'foundation_enable_admin_bar' );
 		echo '<input type="checkbox" id=foundation_enable_admin_bar" name="foundation_enable_admin_bar" value="1" ' . checked( 1, $option, false ) . ' />';
-	}
-
-	/**
-	 * Render the field for setting custom WP_Head code.
-	 *
-	 * @return void
-	 */
-	public function render_custom_wp_head_field() {
-		$value = get_option( 'foundation_custom_wp_head', false );
-		echo '<textarea name="foundation_custom_wp_head" id="foundation_custom_wp_head" rows="10" cols="50" style="width: 100%;">' . esc_textarea( $value ) . '</textarea>';
-		echo '<p class="description">' . esc_html__( 'Add your custom code to be inserted into the wp_head section of your site. Be cautious and only add code from trusted sources.', 'wpblueprint' ) . '</p>';
 	}
 
 	/**

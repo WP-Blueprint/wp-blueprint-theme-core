@@ -78,6 +78,19 @@ class Security {
 	}
 
 	/**
+	 * Safely get and sanitize the client IP address.
+	 *
+	 * @return string The sanitized IP address or empty string if not available.
+	 */
+	private function get_client_ip() {
+		if ( ! isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+	}
+
+	/**
 	 * Limit login attempts by IP address.
 	 *
 	 * @param \WP_User|\WP_Error $user     The user object or WP_Error on failed authentication.
@@ -95,7 +108,7 @@ class Security {
 			return $user;
 		}
 
-		$ip_address           = $_SERVER['REMOTE_ADDR'];
+		$ip_address           = $this->get_client_ip();
 		$reset_interval_hours = get_option( 'security_limit_login_attempts_interval', 24 );
 		$reset_interval       = $reset_interval_hours * 60 * 60; // Set the interval to 1 hour (60 minutes * 60 seconds).
 
@@ -118,7 +131,7 @@ class Security {
 	 * @param string $username The username of the failed login attempt.
 	 */
 	public function track_failed_login_attempts_by_ip( $username ) {
-		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$ip_address = $this->get_client_ip();
 		$attempts   = (int) get_transient( 'login_attempts_' . $ip_address );
 		set_transient( 'login_attempts_' . $ip_address, $attempts + 1, 24 * 60 * 60 ); // Store the count for 24 hours.
 	}
@@ -130,7 +143,7 @@ class Security {
 	 * @param \WP_User $user The user object of the logged-in user.
 	 */
 	public function reset_failed_login_attempts_by_ip( $user_login, $user ) {
-		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$ip_address = $this->get_client_ip();
 		delete_transient( 'login_attempts_' . $ip_address );
 	}
 
